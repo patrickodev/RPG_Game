@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.alonerpg.entities.*;
+import com.alonerpg.main.Game;
+
 public class World {
 	
 	private Tile[] tiles;
@@ -25,18 +28,31 @@ public class World {
 				for(int yy=0; yy<map.getWidth();yy++) {
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
 					
+					tiles[xx + (yy * WIDTH)] = new GroundTile(xx*16, yy*16, Tile.TILE_GROUND);
+					
 					if(pixelAtual == 0xff000000) {
-						System.out.println("estou no pix preto ");
+						//System.out.println("estou no pix chao ");
 						tiles[xx + (yy * WIDTH)] = new GroundTile(xx*16, yy*16, Tile.TILE_GROUND);					
 					}else if(pixelAtual == 0xffffffff) {
-						System.out.println("estou no pix branco ");
+						//System.out.println("estou no pix parede ");
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL);
 					}else if(pixelAtual == 0xff0036ff) {
 						System.out.println("sou o jogador");
-						tiles[xx + (yy * WIDTH)] = new GroundTile(xx*16, yy*16, Tile.TILE_GROUND);
-					}else {
-						//amarelo
-						tiles[xx + (yy * WIDTH)] = new GroundTile(xx*16, yy*16, Tile.TILE_GROUND);
+						Game.player.setX(xx*16);
+						Game.player.setY(yy*16);
+					}else if (pixelAtual == 0xff7700e4) {
+						System.out.println("Muniçao");
+						Game.entities.add(new Bullet(xx*16, yy*16,16,16,Entity.BULLET));
+					}else if (pixelAtual == 0xff48e400) {
+						System.out.println("vida");
+						Game.entities.add(new LifePack(xx*16, yy*16,16,16,Entity.LIFEPACK));
+					}else if (pixelAtual == 0xffe40000) {
+						System.out.println("inimigo");
+						Game.entities.add(new Enemy(xx*16, yy*16,16,16,Entity.ENEMY));						
+					}else if (pixelAtual == 0xffe4d800) {
+						System.out.println("arma");
+						Game.entities.add(new Weapon(xx*16, yy*16,16,16,Entity.WEAPON));
+						
 					}
 				}
 			}

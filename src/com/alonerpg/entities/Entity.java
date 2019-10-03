@@ -3,8 +3,15 @@ package com.alonerpg.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Entity {
+import com.alonerpg.main.Game;
 
+public class Entity {
+	
+	public static BufferedImage LIFEPACK = Game.spritesheet.getSprite(8*16, 0, 16, 16);
+	public static BufferedImage WEAPON = Game.spritesheet.getSprite(9*16, 0, 16, 16);
+	public static BufferedImage BULLET = Game.spritesheet.getSprite(8*16, 16, 16, 16);
+	public static BufferedImage ENEMY = Game.spritesheet.getSprite(9*16, 16, 16, 16);
+	
 	protected double x;
 	protected double y;
 	protected int width;

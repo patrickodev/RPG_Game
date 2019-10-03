@@ -24,18 +24,18 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 240; //Largura da janela grafica
-	private final int HEIGHT = 160; // Altura da janela grafica
-	private final int SCALE = 5; // Escala da janela grafica
+	private final int WIDTH = 320; //Largura da janela grafica
+	private final int HEIGHT = 320; // Altura da janela grafica
+	private final int SCALE = 3; // Escala da janela grafica
 	
 	private BufferedImage image;
 	
-	public List<Entity> entities;
+	public static List<Entity> entities;
 	public static Spritesheet spritesheet;
 	
 	public static World world;
 	
-	private Player player;
+	public static Player player;
 		
 	public Game(){
 		addKeyListener(this);
@@ -46,11 +46,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB); //largura, altura, tipo da imagem
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
+		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
+		entities.add(player);
 		world = new World("/map.png");
 		
-		
-		player= new Player(16, 0, 16, 16, spritesheet.getSprite(144, 16, 16, 16));
-		entities.add(player);
 	}
 	
 	public void initFrame() {
