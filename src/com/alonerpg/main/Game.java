@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import com.alonerpg.entities.Entity;
 import com.alonerpg.entities.Player;
 import com.alonerpg.graficos.Spritesheet;
+import com.alonerpg.world.World;
 
 public class Game extends Canvas implements Runnable, KeyListener{
 	
@@ -30,7 +31,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	
 	public List<Entity> entities;
-	public Spritesheet spritesheet;
+	public static Spritesheet spritesheet;
+	
+	public static World world;
 	
 	private Player player;
 		
@@ -43,8 +46,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB); //largura, altura, tipo da imagem
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
+		world = new World("/map.png");
 		
-		player= new Player(16, 0 , 16, 16, spritesheet.getSprite(32, 0, 16, 16));
+		
+		player= new Player(16, 0, 16, 16, spritesheet.getSprite(144, 16, 16, 16));
 		entities.add(player);
 	}
 	
@@ -110,7 +115,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		g2.setColor(new Color(0, 0, 0, 200));
 		g2.fillRect(0, 0, WIDTH, HEIGHT);
 		g2.rotate(Math.toRadians(0), 90+8, 90+8);*/
-		
+		world.render(g);
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			e.render(g);
