@@ -13,7 +13,9 @@ public class World {
 	
 	private Tile[] tiles;
 	
-	private static int WIDTH, HEIGHT;
+	public static int WIDTH;
+
+	public static int HEIGHT;
 
 	public World(String path) {
 		
@@ -62,8 +64,16 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		for(int xx=0; xx<WIDTH; xx++) {
-			for(int yy=0; yy<HEIGHT; yy++) {
+		int xstart = Camera.x >> 4;
+		int ystart = Camera.y >> 4;
+		
+		int finalx = xstart + (Game.WIDTH >> 4);
+		int finaly = ystart + (Game.HEIGHT >> 4);
+		
+		for(int xx=xstart; xx<=finalx; xx++) {
+			for(int yy=ystart; yy<=finaly; yy++) {
+				if(xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT)
+					continue;
 				Tile tile = tiles[xx + (yy*WIDTH)];
 				tile.render(g);
 			}

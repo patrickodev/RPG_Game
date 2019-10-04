@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.alonerpg.main.Game;
+import com.alonerpg.world.Camera;
+import com.alonerpg.world.World;
 
 public class Player extends Entity {
 	
@@ -64,7 +66,7 @@ public class Player extends Entity {
 			moved = true;
 			dir = down_dir;
 			y += speed;
-		}	
+		}
 		
 		if(moved) {
 			frames++;
@@ -76,21 +78,24 @@ public class Player extends Entity {
 				}
 			}
 		}
+		
+		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH*16 - Game.WIDTH);
+		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT*16 - Game.HEIGHT);
 	}
 	
 	public void render(Graphics g) {
 		if(dir == right_dir) {
-			g.drawImage(rightPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		else if(dir == left_dir) {
-			g.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		
 		if(dir == up_dir) {
-			g.drawImage(upPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		else if(dir == down_dir) {
-			g.drawImage(downPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		
 		
