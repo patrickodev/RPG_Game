@@ -10,9 +10,11 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.alonerpg.entities.Enemy;
 import com.alonerpg.entities.Entity;
 import com.alonerpg.entities.Player;
 import com.alonerpg.graficos.Spritesheet;
@@ -31,13 +33,17 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	
 	public static List<Entity> entities;
+	public static List<Enemy> enemies;
 	public static Spritesheet spritesheet;
 	
 	public static World world;
 	
 	public static Player player;
+	
+	public static Random rand;
 		
 	public Game(){
+		rand = new Random();
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
@@ -45,6 +51,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		/*Inicializando objetos*/
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB); //largura, altura, tipo da imagem
 		entities = new ArrayList<Entity>();
+		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);

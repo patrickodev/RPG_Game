@@ -49,7 +49,9 @@ public class World {
 						Game.entities.add(new LifePack(xx*16, yy*16,16,16,Entity.LIFEPACK));
 					}else if (pixelAtual == 0xffe40000) {
 						System.out.println("inimigo");
-						Game.entities.add(new Enemy(xx*16, yy*16,16,16,Entity.ENEMY));						
+						Enemy en= new Enemy(xx*16, yy*16,16,16,Entity.ENEMY);
+						Game.entities.add(en);
+						Game.enemies.add(en);
 					}else if (pixelAtual == 0xffe4d800) {
 						System.out.println("arma");
 						Game.entities.add(new Weapon(xx*16, yy*16,16,16,Entity.WEAPON));
