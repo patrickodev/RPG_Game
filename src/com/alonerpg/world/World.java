@@ -36,7 +36,9 @@ public class World {
 						tiles[xx + (yy * WIDTH)] = new GroundTile(xx*16, yy*16, Tile.TILE_GROUND);					
 					}else if(pixelAtual == 0xffffffff) {
 						//System.out.println("estou no pix parede ");
-						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL);
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL_H);
+					}else if(pixelAtual == 0xffb4b3a4) {
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL_V);
 					}else if(pixelAtual == 0xff0036ff) {
 						System.out.println("sou o jogador");
 						Game.player.setX(xx*16);

@@ -8,7 +8,8 @@ import com.alonerpg.main.Game;
 public class Tile {
 	
 	public static BufferedImage TILE_GROUND = Game.spritesheet.getSprite(0, 0, 16, 16);
-	public static BufferedImage TILE_WALL = Game.spritesheet.getSprite(16, 0, 16, 16);
+	public static BufferedImage TILE_WALL_H = Game.spritesheet.getSprite(16, 0, 16, 16);
+	public static BufferedImage TILE_WALL_V = Game.spritesheet.getSprite(16, 16, 16, 16);
 	
 	private BufferedImage sprite;
 	private int x, y;

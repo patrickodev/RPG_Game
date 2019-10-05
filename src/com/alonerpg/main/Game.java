@@ -18,6 +18,7 @@ import com.alonerpg.entities.Enemy;
 import com.alonerpg.entities.Entity;
 import com.alonerpg.entities.Player;
 import com.alonerpg.graficos.Spritesheet;
+import com.alonerpg.graficos.UI;
 import com.alonerpg.world.World;
 
 public class Game extends Canvas implements Runnable, KeyListener{
@@ -28,7 +29,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private boolean isRunning = true;
 	public static int WIDTH = 240; //Largura da janela grafica
 	public static int HEIGHT = 160; // Altura da janela grafica
-	private final int SCALE = 3; // Escala da janela grafica
+	private final int SCALE = 5; // Escala da janela grafica
 	
 	private BufferedImage image;
 	
@@ -41,6 +42,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static Player player;
 	
 	public static Random rand;
+	
+	public UI ui;
 		
 	public Game(){
 		rand = new Random();
@@ -49,10 +52,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		initFrame();
 		
 		/*Inicializando objetos*/
+		ui = new UI();
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB); //largura, altura, tipo da imagem
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
-		spritesheet = new Spritesheet("/spritesheet.png");
+		spritesheet = new Spritesheet("/jamal.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
 		world = new World("/map.png");
@@ -126,8 +130,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
-		g.dispose(); //Limpar dados que tem na imagem que nao precisa que ja foram usado antes (melhora a performance)
 		
+		ui.render(g);
+		
+		/***/
+		g.dispose(); //Limpar dados que tem na imagem que nao precisa que ja foram usado antes (melhora a performance)
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
 		bs.show(); //Para mostrar de fato os graficos

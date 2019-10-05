@@ -9,6 +9,8 @@ import com.alonerpg.world.World;
 
 public class Player extends Entity {
 	
+	public static double life = 100, maxLife=100;
+	
 	public boolean right, up, left, down;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
 	public int dir = right_dir;
