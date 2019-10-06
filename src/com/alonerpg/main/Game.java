@@ -34,6 +34,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static int HEIGHT = 160; // Altura da janela grafica
 	private final int SCALE = 5; // Escala da janela grafica
 	
+	private int curLevel = 1, maxLevel = 2;
 	private BufferedImage image;
 	
 	public static List<Entity> entities;
@@ -66,7 +67,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		spritesheet = new Spritesheet("/jamal.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
-		world = new World("/map.png");
+		world = new World("/level1.png");
 		
 	}
 	
@@ -111,6 +112,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		for(int i = 0; i < lightnings.size(); i++) {
 			Entity e = lightnings.get(i);
 			e.tick();
+		}
+		
+		if(enemies.size() == 0) {
+			System.out.println("Proximo nivel");
+			curLevel++;
+			if(curLevel > maxLevel) {
+				curLevel = 1;
+			}
+			String newWorld = "/level"+curLevel+".png";
+			World.restartGame(newWorld);
 		}
 	}
 	

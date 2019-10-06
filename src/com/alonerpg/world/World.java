@@ -3,10 +3,12 @@ package com.alonerpg.world;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import com.alonerpg.entities.*;
+import com.alonerpg.graficos.Spritesheet;
 import com.alonerpg.main.Game;
 
 public class World {
@@ -87,6 +89,15 @@ public class World {
 				(tiles[x2+(y2*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x3+(y3*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x4+(y4*World.WIDTH)] instanceof WallTile));
+	}
+	
+	public static void restartGame(String level) {
+		Game.entities = new ArrayList<Entity>();
+		Game.enemies = new ArrayList<Enemy>();
+		Game.spritesheet = new Spritesheet("/jamal.png");
+		Game.player= new Player(16, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16));
+		Game.entities.add(Game.player);
+		Game.world = new World(level);
 	}
 	
 	public void render(Graphics g) {

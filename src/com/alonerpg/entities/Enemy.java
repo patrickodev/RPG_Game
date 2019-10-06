@@ -3,9 +3,6 @@ package com.alonerpg.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import com.alonerpg.graficos.Spritesheet;
 import com.alonerpg.main.Game;
 import com.alonerpg.world.Camera;
 import com.alonerpg.world.World;
@@ -63,14 +60,6 @@ public class Enemy extends Entity{
 				System.out.println("life: " + Game.player.life);
 			}
 			
-			if(Game.player.life <= 0) {
-				Game.entities = new ArrayList<Entity>();
-				Game.enemies = new ArrayList<Enemy>();
-				Game.spritesheet = new Spritesheet("/jamal.png");
-				Game.player= new Player(16, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16));
-				Game.entities.add(Game.player);
-				Game.world = new World("/map.png");
-			}
 		}
 		
 		frames++;
@@ -93,6 +82,7 @@ public class Enemy extends Entity{
 		coliddingLightning();
 		
 		if(life <= 0) {
+			Game.enemies.remove(this);
 			Game.entities.remove(this);
 		}
 		

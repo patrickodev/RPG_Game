@@ -2,7 +2,6 @@ package com.alonerpg.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import com.alonerpg.main.Game;
 import com.alonerpg.world.Camera;
 import com.alonerpg.world.World;
@@ -34,7 +33,7 @@ public class Player extends Entity {
 	
 	private BufferedImage playerDamage;
 	private BufferedImage heroDamage;
-	
+		
 	private int damageFrames = 0;
 	
 	public int energies = 0;
@@ -154,7 +153,7 @@ public class Player extends Entity {
 					dy = 1;
 				}
 				
-				Lightning lightning = new Lightning(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
+				Lightning lightning = new Lightning(this.getX() + px, this.getY() + py, 3, 3, Lightning.lightning, dx, dy);
 				Game.lightnings.add(lightning);
 			}
 		}
@@ -175,6 +174,10 @@ public class Player extends Entity {
 				Lightning lightning = new Lightning(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
 				Game.lightnings.add(lightning);
 			}
+		}
+		
+		if(life <= 0) {
+			
 		}
 		
 		checkLifepack();
