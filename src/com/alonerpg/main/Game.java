@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	private boolean isRunning = true;
 	public static int WIDTH = 240; //Largura da janela grafica
 	public static int HEIGHT = 160; // Altura da janela grafica
-	private final int SCALE = 5; // Escala da janela grafica
+	public static final int SCALE = 5; // Escala da janela grafica
 	
 	private int curLevel = 1, maxLevel = 2;
 	private BufferedImage image;
@@ -56,7 +56,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	private boolean showGameOver = true;
 	private boolean restartGame = false;
 	
-	public static String gameState = "GameOver"; 
+	public static String gameState = "Menu"; 
+	
+	public Menu menu;
 		
 	public Game(){
 		rand = new Random();
@@ -71,10 +73,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
 		lightnings = new ArrayList<Lightning>();
+		
 		spritesheet = new Spritesheet("/jamal.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
 		world = new World("/level1.png");
+		
+		menu = new Menu();
 		
 	}
 	
@@ -140,15 +145,19 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				else
 					this.showGameOver = true;
 			}
+			
+			if(restartGame) {
+				restartGame = false;
+				gameState = "Normal";
+				curLevel = 1;
+				String newWorld = "/level"+curLevel+".png";
+				World.restartGame(newWorld);
+			}
+		}else if(gameState == "Menu") {
+			menu.tick();
 		}
 		
-		if(restartGame) {
-			restartGame = false;
-			gameState = "Normal";
-			curLevel = 1;
-			String newWorld = "/level"+curLevel+".png";
-			World.restartGame(newWorld);
-		}
+		
 	}
 	
 	/*Cuida da renderizaçao*/
@@ -201,6 +210,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			g.setFont(new Font("arial", Font.BOLD, 30));
 			if(showGameOver)
 				g.drawString("Pressione start para reiniciar...", (WIDTH*SCALE/2) - 200, (HEIGHT*SCALE/2));
+		}else if(gameState == "Menu") {
+			menu.render(g);
 		}
 		
 		bs.show(); //Para mostrar de fato os graficos
@@ -250,10 +261,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		if(e.getKeyCode() == KeyEvent.VK_UP ||
 			e.getKeyCode() == KeyEvent.VK_W) {
 				player.up = true;
+				if(gameState == "Menu") {
+					menu.up = true;
+				}
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_DOWN ||
 			e.getKeyCode() == KeyEvent.VK_S) {
 				player.down = true;
+				
+				if(gameState == "Menu") {
+					menu.down = true;
+				}
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_J ||
