@@ -16,6 +16,9 @@ public class UI {
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("arial", Font.BOLD, 9));
 		g.drawString((int)Game.player.life+"/"+(int)Game.player.maxLife, 22, 13);
+		g.setFont(new Font("arial", Font.BOLD, 9));
+		g.setColor(Color.white);
+		g.drawString("Energia: " + Game.player.energies, 180,13);
 		
 	}
 }

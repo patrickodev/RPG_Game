@@ -11,6 +11,8 @@ public class Player extends Entity {
 	
 	public double life = 100, maxLife=100;
 	
+	public int mx, my; //posiçoes do mouse
+	
 	public boolean right, up, left, down;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
 	public int dir = right_dir;
@@ -37,6 +39,8 @@ public class Player extends Entity {
 	
 	public int energies = 0;
 	private boolean hasUniform = false;
+	
+	public boolean shoot = false, mouseShoot = false;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -126,6 +130,53 @@ public class Player extends Entity {
 			}
 		}
 		
+		if(shoot) {
+			/*Criando o raio para atirar com o teclado*/
+			shoot = false;
+			if(hasUniform && energies > 0) {
+				energies--;
+								
+				int dx = 0;
+				int dy = 0;
+				int px = 0;
+				int py = 10;
+				
+				if(dir == right_dir) {
+					px = 10;
+					dx = 1;
+				}else if(dir == left_dir) {
+					px = 2;
+					dx = -1;
+				}
+				if(dir == up_dir) {
+					dy = -1;
+				}else if(dir == down_dir) {
+					dy = 1;
+				}
+				
+				Lightning lightning = new Lightning(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
+				Game.lightnings.add(lightning);
+			}
+		}
+		
+		if(mouseShoot) {
+			/*Criando o raio para atirar com o mouse*/
+			double angle = Math.atan2(my - (this.getY()+8 - Camera.y), mx - (this.getX()+8 - Camera.x));
+			mouseShoot = false;
+			if(hasUniform && energies > 0) {
+				energies--;
+						
+				
+				double dx = Math.cos(angle);
+				double dy = Math.sin(angle);
+				int px = 8;
+				int py = 8;
+								
+				Lightning lightning = new Lightning(this.getX() + px, this.getY() + py, 3, 3, null, dx, dy);
+				Game.lightnings.add(lightning);
+			}
+		}
+		
 		checkLifepack();
 		checkEnergies();
 		checkUniform();
@@ -138,7 +189,7 @@ public class Player extends Entity {
 		for(int i=0; i<Game.entities.size(); i++) {
 			Entity e = Game.entities.get(i);
 			if(e instanceof Uniform) { // quer dizer que esta vendo um lifepack
-				if(Entity.isColidding(this, e)) {
+				if(Entity.isColliding(this, e)) {
 					hasUniform = true;
 					System.out.println("pegou o uniforme ");
 					Game.entities.remove(e);
@@ -152,8 +203,8 @@ public class Player extends Entity {
 		for(int i=0; i<Game.entities.size(); i++) {
 			Entity e = Game.entities.get(i);
 			if(e instanceof Energy) { // quer dizer que esta vendo um lifepack
-				if(Entity.isColidding(this, e)) {
-					energies+=10;
+				if(Entity.isColliding(this, e)) {
+					energies+=100;
 					System.out.println("Muniçao: "+ energies);
 					Game.entities.remove(e);
 					return;
@@ -166,7 +217,7 @@ public class Player extends Entity {
 		for(int i=0; i<Game.entities.size(); i++) {
 			Entity e = Game.entities.get(i);
 			if(e instanceof LifePack) { // quer dizer que esta vendo um lifepack
-				if(Entity.isColidding(this, e)) {
+				if(Entity.isColliding(this, e)) {
 					life+=10;
 					if(life>=100)
 						life = 100;

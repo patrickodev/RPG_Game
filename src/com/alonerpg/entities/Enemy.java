@@ -19,11 +19,18 @@ public class Enemy extends Entity{
 	private int frames = 0, maxFrames = 10, index = 0, maxIndex = 3;
 	
 	private BufferedImage[] enemyAnimation;
+	private BufferedImage enemyDamage;
+	
+	public boolean heDamaged = false;
+	private int damageFrames = 0;
+	
+	private int life = 5;
 	
 	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, null);
 		
 		enemyAnimation = new BufferedImage[4];
+		enemyDamage = Game.spritesheet.getSprite(0, 80, 16, 16);
 		
 		for(int i=0; i<4; i++) {
 			enemyAnimation[i] = Game.spritesheet.getSprite((i*16), 64, 16, 16);
@@ -31,21 +38,21 @@ public class Enemy extends Entity{
 	}
 	
 	public void tick() {
-		if(isColiddingWithPlayer() == false) {
+		if(isCollidingWithPlayer() == false) {
 			
 			if((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY())
-					&& !isColidding((int)(x+speed), this.getY())) {
+					&& !isColliding((int)(x+speed), this.getY())) {
 				x+=speed;
 			}else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY())
-					&& !isColidding((int)(x-speed), this.getY())) {
+					&& !isColliding((int)(x-speed), this.getY())) {
 				x-=speed;
 			}
 				
 			if((int)y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed))
-					&& !isColidding(this.getX(), (int)(y+speed))) {
+					&& !isColliding(this.getX(), (int)(y+speed))) {
 				y+=speed;
 			}else if((int)y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed))
-					&& !isColidding(this.getX(), (int)(y-speed))) {
+					&& !isColliding(this.getX(), (int)(y-speed))) {
 				y-=speed;
 			}
 			
@@ -75,13 +82,46 @@ public class Enemy extends Entity{
 			}
 		}
 		
+		if(heDamaged) {
+			this.damageFrames++;
+			if(this.damageFrames == 30) {
+				this.damageFrames = 0;
+				heDamaged = false;
+			}
+		}
+		
+		coliddingLightning();
+		
+		if(life <= 0) {
+			Game.entities.remove(this);
+		}
+		
 	}
 	
-	public void render(Graphics g) {		
-		g.drawImage(enemyAnimation[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+	public void coliddingLightning() {
+		
+		for(int i=0; i<Game.lightnings.size(); i++) {
+			Entity e = Game.lightnings.get(i);
+			if(e instanceof Lightning) {
+				if(Entity.isColliding(this, e)) {
+					heDamaged = true;
+					life--;
+					Game.lightnings.remove(i);
+					
+					return;
+				}
+			}
+		}	
+	}
+	
+	public void render(Graphics g) {
+		if(!heDamaged)
+			g.drawImage(enemyAnimation[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		else
+			g.drawImage(enemyDamage, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}	
 	
-	public boolean isColiddingWithPlayer() {
+	public boolean isCollidingWithPlayer() {
 		Rectangle enemyCurrent = new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
 		
@@ -89,7 +129,7 @@ public class Enemy extends Entity{
 		
 	}
 	
-	public boolean isColidding(int xNext, int yNext) {
+	public boolean isColliding(int xNext, int yNext) {
 		Rectangle enemyCurrent = new Rectangle(xNext, yNext, World.TILE_SIZE, World.TILE_SIZE);
 		
 		for(int i=0; i<Game.enemies.size(); i++) {

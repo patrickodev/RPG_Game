@@ -3,10 +3,11 @@ package com.alonerpg.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ import javax.swing.JFrame;
 
 import com.alonerpg.entities.Enemy;
 import com.alonerpg.entities.Entity;
+import com.alonerpg.entities.Lightning;
 import com.alonerpg.entities.Player;
 import com.alonerpg.graficos.Spritesheet;
 import com.alonerpg.graficos.UI;
 import com.alonerpg.world.World;
 
-public class Game extends Canvas implements Runnable, KeyListener{
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener{
 	
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
@@ -36,6 +38,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	
 	public static List<Entity> entities;
 	public static List<Enemy> enemies;
+	public static List<Lightning> lightnings; 
+	
 	public static Spritesheet spritesheet;
 	
 	public static World world;
@@ -49,6 +53,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public Game(){
 		rand = new Random();
 		addKeyListener(this);
+		addMouseListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
 		
@@ -57,6 +62,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB); //largura, altura, tipo da imagem
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
+		lightnings = new ArrayList<Lightning>();
 		spritesheet = new Spritesheet("/jamal.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
@@ -96,8 +102,14 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	
 	/*Cuida da logica do jogo*/
 	public void tick() {
+		
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
+			e.tick();
+		}
+		
+		for(int i = 0; i < lightnings.size(); i++) {
+			Entity e = lightnings.get(i);
 			e.tick();
 		}
 	}
@@ -131,6 +143,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
+		for(int i = 0; i < lightnings.size(); i++) {
+			Entity e = lightnings.get(i);
+			e.render(g);
+		}
 		
 		ui.render(g);
 		
@@ -138,9 +154,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		g.dispose(); //Limpar dados que tem na imagem que nao precisa que ja foram usado antes (melhora a performance)
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
-		g.setFont(new Font("arial", Font.BOLD, 50));
-		g.setColor(Color.black);
-		g.drawString("Munição: " + player.energies, 870,68);
+		
 		bs.show(); //Para mostrar de fato os graficos
 	}
 	
@@ -194,6 +208,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 				player.down = true;
 		}
 		
+		if(e.getKeyCode() == KeyEvent.VK_J ||
+			e.getKeyCode() == KeyEvent.VK_X) {
+			player.shoot = true;
+		}
 	}
 
 	@Override
@@ -218,6 +236,37 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		player.mouseShoot = true;
+		player.mx = (e.getX()/SCALE);
+		player.my = (e.getY()/SCALE);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
