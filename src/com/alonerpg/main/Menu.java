@@ -3,15 +3,24 @@ package com.alonerpg.main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class Menu {
+	
+	private BufferedImage painel;
 	
 	public String[] options = {"Novo jogo", "Carregar jogo", "Creditos", "Sair"};
 	
 	public int currentOption = 0;
 	public int maxOption = options.length - 1;
 	
-	public boolean down = false, up = false;
+	public boolean down = false, up = false, enter = false;
+	
+	public boolean pause = false;
+	
+	public Menu() {
+		painel = Game.painel.getSprite(0, 0, 480, 360);
+	}
 	
 	public void tick() {
 		if(up) {
@@ -28,26 +37,41 @@ public class Menu {
 				currentOption = 0;
 			}
 		}
+		if(enter) {
+			enter = false;
+			if(options[currentOption] == "Novo jogo" || options[currentOption] == "Continuar") {
+				Game.gameState = "Normal";	
+				pause = false;
+			}else if(options[currentOption] == "Sair") {
+				System.exit(1);
+			}
+		}
 	}
 	
 	public void render(Graphics g) {
 		/*Fundo preto*/
 		g.setColor(Color.black);
 		g.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE);
+		g.drawImage(painel, 0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE, null);
+		
 		/*Nome do game*/
-		g.setColor(Color.blue);
+		g.setColor(Color.black);
 		g.setFont(new Font("arial", Font.BOLD, 50));
 		g.drawString("Jamalzin dos shock", (Game.WIDTH*Game.SCALE)/2 - 250, (Game.HEIGHT*Game.SCALE)/2-150);
 		/*Opçoes do menu*/
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 30));
-		g.drawString("Novo jogo", (Game.WIDTH*Game.SCALE)/2 - 90, (Game.HEIGHT*Game.SCALE)/2+50);
+		if(!pause)
+			g.drawString("Novo jogo", (Game.WIDTH*Game.SCALE)/2 - 90, (Game.HEIGHT*Game.SCALE)/2+50);
+		else
+			g.drawString("Continue", (Game.WIDTH*Game.SCALE)/2 - 90, (Game.HEIGHT*Game.SCALE)/2+50);
 		g.drawString("Carregar jogo", (Game.WIDTH*Game.SCALE)/2 - 115, (Game.HEIGHT*Game.SCALE)/2+100);
 		g.drawString("Creditos", (Game.WIDTH*Game.SCALE)/2 - 77, (Game.HEIGHT*Game.SCALE)/2+150);
 		g.drawString("Sair", (Game.WIDTH*Game.SCALE)/2 - 45, (Game.HEIGHT*Game.SCALE)/2+200);
 		
 		if(options[currentOption] == "Novo jogo") {
 			g.drawString(">", (Game.WIDTH*Game.SCALE)/2 - 130, (Game.HEIGHT*Game.SCALE)/2+50);
+			
 		}else if(options[currentOption] == "Carregar jogo") {
 			g.drawString(">", (Game.WIDTH*Game.SCALE)/2 - 155, (Game.HEIGHT*Game.SCALE)/2+100);
 		}else if(options[currentOption] == "Creditos") {

@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static List<Enemy> enemies;
 	public static List<Lightning> lightnings; 
 	
-	public static Spritesheet spritesheet;
+	public static Spritesheet spritesheet, painel;
 	
 	public static World world;
 	
@@ -75,6 +75,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		lightnings = new ArrayList<Lightning>();
 		
 		spritesheet = new Spritesheet("/jamal.png");
+		painel = new Spritesheet("/superchoque.jpg");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
 		world = new World("/level1.png");
@@ -281,6 +282,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			this.restartGame = true;
+			if(gameState == "Menu") {
+				menu.enter = true;
+			}
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			gameState = "Menu";
+			menu.pause = true;
 		}
 	}
 
