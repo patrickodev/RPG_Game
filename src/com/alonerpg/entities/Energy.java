@@ -2,9 +2,9 @@ package com.alonerpg.entities;
 
 import java.awt.image.BufferedImage;
 
-public class Bullet extends Entity {
+public class Energy extends Entity {
 
-	public Bullet(int x, int y, int width, int height, BufferedImage sprite) {
+	public Energy(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 	}
 

@@ -3,7 +3,9 @@ package com.alonerpg.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import com.alonerpg.graficos.Spritesheet;
 import com.alonerpg.main.Game;
 import com.alonerpg.world.Camera;
 import com.alonerpg.world.World;
@@ -30,6 +32,7 @@ public class Enemy extends Entity{
 	
 	public void tick() {
 		if(isColiddingWithPlayer() == false) {
+			
 			if((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY())
 					&& !isColidding((int)(x+speed), this.getY())) {
 				x+=speed;
@@ -49,11 +52,17 @@ public class Enemy extends Entity{
 		}else {
 			if(Game.rand.nextInt(100) < 10) {
 				Game.player.life--;
+				Game.player.isDamaged = true;
 				System.out.println("life: " + Game.player.life);
 			}
 			
-			if(Game.player.life == 0) {
-				System.exit(1);
+			if(Game.player.life <= 0) {
+				Game.entities = new ArrayList<Entity>();
+				Game.enemies = new ArrayList<Enemy>();
+				Game.spritesheet = new Spritesheet("/jamal.png");
+				Game.player= new Player(16, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16));
+				Game.entities.add(Game.player);
+				Game.world = new World("/map.png");
 			}
 		}
 		

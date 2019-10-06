@@ -45,10 +45,14 @@ public class World {
 						Game.player.setY(yy*16);
 					}else if (pixelAtual == 0xff7700e4) {
 						System.out.println("Muniçao");
-						Game.entities.add(new Bullet(xx*16, yy*16,16,16,Entity.BULLET));
+						Energy energies = new Energy(xx*16, yy*16,16,16,Entity.ENERGY);
+						energies.setMask(5, 5, 5, 5);
+						Game.entities.add(energies);
 					}else if (pixelAtual == 0xff48e400) {
 						System.out.println("vida");
-						Game.entities.add(new LifePack(xx*16, yy*16,16,16,Entity.LIFEPACK));
+						LifePack pack = new LifePack(xx*16, yy*16,16,16,Entity.LIFEPACK);
+						pack.setMask(3, 5, 10, 11);
+						Game.entities.add(pack);
 					}else if (pixelAtual == 0xffe40000) {
 						System.out.println("inimigo");
 						Enemy en= new Enemy(xx*16, yy*16,16,16,Entity.ENEMY);
@@ -56,7 +60,7 @@ public class World {
 						Game.enemies.add(en);
 					}else if (pixelAtual == 0xffe4d800) {
 						System.out.println("arma");
-						Game.entities.add(new Weapon(xx*16, yy*16,16,16,Entity.WEAPON));
+						Game.entities.add(new Uniform(xx*16, yy*16,16,16,Entity.UNIFORM));
 						
 					}
 				}

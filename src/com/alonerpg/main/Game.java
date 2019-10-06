@@ -3,6 +3,7 @@ package com.alonerpg.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -137,6 +138,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		g.dispose(); //Limpar dados que tem na imagem que nao precisa que ja foram usado antes (melhora a performance)
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		g.setFont(new Font("arial", Font.BOLD, 50));
+		g.setColor(Color.black);
+		g.drawString("Munição: " + player.energies, 870,68);
 		bs.show(); //Para mostrar de fato os graficos
 	}
 	
@@ -147,7 +151,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		double amountOfTicks = 60.0; // frames per second
 		double ns = 1000000000 / amountOfTicks; // dividindo 1 segundo
 		double delta = 0;
-		int frames = 0;
+		//int frames = 0;
 		double timer = System.currentTimeMillis();//Pega a hora atual tambem, apenas mais leve e menos preciso
 		while(isRunning) {
 			long now = System.nanoTime();
@@ -156,13 +160,13 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			if(delta >= 1) { // para que atualize o jogo a cada segundo
 				tick(); //primeiro atualiza
 				render(); //depois renderiza
-				frames++;
+				//frames++;
 				delta--;
 			}
 			
 			if(System.currentTimeMillis() - timer >= 1000){ // Passou um segundo desde que mostrou a ultima mensagem
-				System.out.println("FPS: "+ frames);
-				frames = 0;
+				//System.out.println("FPS: "+ frames);
+				//frames = 0;
 				timer += 1000; // Para mostrar a cada segundo
 			}
 		}
@@ -173,25 +177,21 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||
-				e.getKeyCode() == KeyEvent.VK_D) {
-			System.out.println("DIREITAAA");
-			player.right = true;
+			e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT ||
-				e.getKeyCode() == KeyEvent.VK_A) {
-			System.out.println("esquerda");//ande para a esquerda
-			player.left = true;
+			e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = true;
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_UP ||
-				e.getKeyCode() == KeyEvent.VK_W) {
-			System.out.println("CIMAAA");//ande para cima
-			player.up = true;
+			e.getKeyCode() == KeyEvent.VK_W) {
+				player.up = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_DOWN ||
-				e.getKeyCode() == KeyEvent.VK_S) {
-			System.out.println("baixoo");//ande para baixo
-			player.down = true;
+			e.getKeyCode() == KeyEvent.VK_S) {
+				player.down = true;
 		}
 		
 	}
@@ -199,25 +199,19 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||
-				e.getKeyCode() == KeyEvent.VK_D) {
-			System.out.println("DIREITAAA");
-			player.right = false;
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_LEFT ||
-				e.getKeyCode() == KeyEvent.VK_A) {
-			System.out.println("esquerda");//ande para a esquerda
-			player.left = false;
+			e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_LEFT ||
+			e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = false;
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_UP ||
-				e.getKeyCode() == KeyEvent.VK_W) {
-			System.out.println("CIMAAA");//ande para cima
-			player.up = false;
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_DOWN ||
-				e.getKeyCode() == KeyEvent.VK_S) {
-			System.out.println("baixoo");//ande para baixo
-			player.down = false;
+			e.getKeyCode() == KeyEvent.VK_W) {
+				player.up = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN ||
+			e.getKeyCode() == KeyEvent.VK_S) {
+				player.down = false;
 		}
 				
 	}

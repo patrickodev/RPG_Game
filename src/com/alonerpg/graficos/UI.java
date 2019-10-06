@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.alonerpg.entities.Player;
+import com.alonerpg.main.Game;
 
 public class UI {
 	
@@ -12,10 +12,10 @@ public class UI {
 		g.setColor(Color.red);
 		g.fillRect(10, 5, 50, 10);
 		g.setColor(Color.green);
-		g.fillRect(10, 5, (int)((Player.life/Player.maxLife)*50), 10);
+		g.fillRect(10, 5, (int)((Game.player.life/Game.player.maxLife)*50), 10);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("arial", Font.BOLD, 9));
-		g.drawString((int)Player.life+"/"+(int)Player.maxLife, 22, 13);
+		g.drawString((int)Game.player.life+"/"+(int)Game.player.maxLife, 22, 13);
 		
 	}
 }
