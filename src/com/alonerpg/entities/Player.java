@@ -177,7 +177,7 @@ public class Player extends Entity {
 		}
 		
 		if(life <= 0) {
-			
+			Game.gameState = "GameOver";
 		}
 		
 		checkLifepack();

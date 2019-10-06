@@ -3,7 +3,6 @@ package com.alonerpg.graficos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-
 import com.alonerpg.main.Game;
 
 public class UI {

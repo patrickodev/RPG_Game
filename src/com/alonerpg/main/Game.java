@@ -3,7 +3,9 @@ package com.alonerpg.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -50,6 +52,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static Random rand;
 	
 	public UI ui;
+	private int framesGameOver = 0;
+	private boolean showGameOver = true;
+	private boolean restartGame = false;
+	
+	public static String gameState = "GameOver"; 
 		
 	public Game(){
 		rand = new Random();
@@ -103,23 +110,42 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	
 	/*Cuida da logica do jogo*/
 	public void tick() {
+		if(gameState == "Normal") {
 		
-		for(int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			e.tick();
-		}
-		
-		for(int i = 0; i < lightnings.size(); i++) {
-			Entity e = lightnings.get(i);
-			e.tick();
-		}
-		
-		if(enemies.size() == 0) {
-			System.out.println("Proximo nivel");
-			curLevel++;
-			if(curLevel > maxLevel) {
-				curLevel = 1;
+			for(int i = 0; i < entities.size(); i++) {
+				Entity e = entities.get(i);
+				e.tick();
 			}
+			
+			for(int i = 0; i < lightnings.size(); i++) {
+				Entity e = lightnings.get(i);
+				e.tick();
+			}
+			
+			if(enemies.size() == 0) {
+				System.out.println("Proximo nivel");
+				curLevel++;
+				if(curLevel > maxLevel) {
+					curLevel = 1;
+				}
+				String newWorld = "/level"+curLevel+".png";
+				World.restartGame(newWorld);
+			}
+		}else if(gameState == "GameOver") {
+			this.framesGameOver++;
+			if(this.framesGameOver == 40) {
+				this.framesGameOver = 0;
+				if(this.showGameOver )
+					this.showGameOver = false;
+				else
+					this.showGameOver = true;
+			}
+		}
+		
+		if(restartGame) {
+			restartGame = false;
+			gameState = "Normal";
+			curLevel = 1;
 			String newWorld = "/level"+curLevel+".png";
 			World.restartGame(newWorld);
 		}
@@ -165,6 +191,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		g.dispose(); //Limpar dados que tem na imagem que nao precisa que ja foram usado antes (melhora a performance)
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		if(gameState == "GameOver") {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(new Color(0, 0, 0, 150));
+			g2.fillRect(0, 0, (WIDTH*SCALE), (HEIGHT*SCALE));
+			g.setFont(new Font("arial", Font.BOLD, 50));
+			g.setColor(Color.white);
+			g.drawString("GAME OVER", (WIDTH*SCALE/2) - 130, (HEIGHT*SCALE/2) - 50);
+			g.setFont(new Font("arial", Font.BOLD, 30));
+			if(showGameOver)
+				g.drawString("Pressione start para reiniciar...", (WIDTH*SCALE/2) - 200, (HEIGHT*SCALE/2));
+		}
 		
 		bs.show(); //Para mostrar de fato os graficos
 	}
@@ -222,6 +259,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		if(e.getKeyCode() == KeyEvent.VK_J ||
 			e.getKeyCode() == KeyEvent.VK_X) {
 			player.shoot = true;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			this.restartGame = true;
 		}
 	}
 

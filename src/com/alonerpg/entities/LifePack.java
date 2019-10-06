@@ -10,7 +10,7 @@ public class LifePack extends Entity{
 	
 	private BufferedImage[] Animation;
 	
-	private int frames = 0, maxFrames = 30, index = 0, maxIndex = 1;
+	private int frames = 0, maxFrames = 20, index = 0, maxIndex = 1;
 
 	public LifePack(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
