@@ -160,7 +160,7 @@ public class Player extends Entity {
 		
 		if(mouseShoot) {
 			/*Criando o raio para atirar com o mouse*/
-			double angle = Math.atan2(my - (this.getY()+8 - Camera.y), mx - (this.getX()+8 - Camera.x));
+			double angle = Math.atan2(my - (this.getY() + 8 - Camera.y), mx - (this.getX() + 8 - Camera.x));
 			mouseShoot = false;
 			if(hasUniform && energies > 0) {
 				energies--;
@@ -196,7 +196,7 @@ public class Player extends Entity {
 	public void checkUniform() {
 		for(int i=0; i<Game.entities.size(); i++) {
 			Entity e = Game.entities.get(i);
-			if(e instanceof Uniform) { // quer dizer que esta vendo um lifepack
+			if(e instanceof Uniform) { //quer dizer que esta vendo um lifepack
 				if(Entity.isColliding(this, e)) {
 					hasUniform = true;
 					System.out.println("pegou o uniforme ");
@@ -213,7 +213,6 @@ public class Player extends Entity {
 			if(e instanceof Energy) { // quer dizer que esta vendo um lifepack
 				if(Entity.isColliding(this, e)) {
 					energies+=100;
-					System.out.println("Muniçao: "+ energies);
 					Game.entities.remove(e);
 					return;
 				}

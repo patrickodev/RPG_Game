@@ -19,7 +19,7 @@ public class Menu {
 	public boolean pause = false;
 	
 	public Menu() {
-		painel = Game.painel.getSprite(0, 0, 480, 360);
+		painel = Game.painel.getSprite(0, 0, 240, 160);
 	}
 	
 	public void tick() {
@@ -55,11 +55,11 @@ public class Menu {
 		g.drawImage(painel, 0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE, null);
 		
 		/*Nome do game*/
-		g.setColor(Color.black);
+		g.setColor(Color.YELLOW);
 		g.setFont(new Font("arial", Font.BOLD, 50));
 		g.drawString("Jamalzin dos shock", (Game.WIDTH*Game.SCALE)/2 - 250, (Game.HEIGHT*Game.SCALE)/2-150);
 		/*Opçoes do menu*/
-		g.setColor(Color.white);
+		g.setColor(Color.YELLOW);
 		g.setFont(new Font("arial", Font.BOLD, 30));
 		if(!pause)
 			g.drawString("Novo jogo", (Game.WIDTH*Game.SCALE)/2 - 90, (Game.HEIGHT*Game.SCALE)/2+50);

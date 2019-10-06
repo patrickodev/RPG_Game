@@ -95,6 +95,7 @@ public class World {
 		Game.entities = new ArrayList<Entity>();
 		Game.enemies = new ArrayList<Enemy>();
 		Game.spritesheet = new Spritesheet("/jamal.png");
+		Game.painel = new Spritesheet("/backMenu.png");
 		Game.player= new Player(16, 0, 16, 16, Game.spritesheet.getSprite(32, 0, 16, 16));
 		Game.entities.add(Game.player);
 		Game.world = new World(level);

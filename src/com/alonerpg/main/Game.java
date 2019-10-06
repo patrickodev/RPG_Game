@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	private boolean isRunning = true;
 	public static int WIDTH = 240; //Largura da janela grafica
 	public static int HEIGHT = 160; // Altura da janela grafica
-	public static final int SCALE = 5; // Escala da janela grafica
+	public static final int SCALE = 3; // Escala da janela grafica
 	
 	private int curLevel = 1, maxLevel = 2;
 	private BufferedImage image;
@@ -61,6 +61,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public Menu menu;
 		
 	public Game(){
+		Sound.songBackground.Play();
 		rand = new Random();
 		addKeyListener(this);
 		addMouseListener(this);
@@ -75,7 +76,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		lightnings = new ArrayList<Lightning>();
 		
 		spritesheet = new Spritesheet("/jamal.png");
-		painel = new Spritesheet("/superchoque.jpg");
+		painel = new Spritesheet("/backMenu.png");
 		player= new Player(16, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
 		entities.add(player);
 		world = new World("/level1.png");
