@@ -19,6 +19,8 @@ public class Menu {
 	
 	public boolean pause = false;
 	
+	public boolean credits = false;
+	
 	public Menu() {
 		painel = Game.painel.getSprite(0, 0, 240, 160);
 	}
@@ -43,6 +45,8 @@ public class Menu {
 			if(options[currentOption] == "Novo jogo" || options[currentOption] == "Continuar") {
 				Game.gameState = "Normal";	
 				pause = false;
+			}else if(options[currentOption] == "Creditos") {
+				credits = false;
 			}else if(options[currentOption] == "Sair") {
 				System.exit(1);
 			}
@@ -50,20 +54,9 @@ public class Menu {
 	}
 	
 	public void render(Graphics g) {
-		/*Fundo preto*//*
-		g.setColor(Color.black);
-		g.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE);
-		g.drawImage(painel, 0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE, null);
 		
-		/*Nome do game*//*
-		g.setColor(Color.YELLOW);
-		g.setFont(new Font("arial", Font.BOLD, 50));
-		g.drawString("Jamalzin dos shock", (Game.WIDTH*Game.SCALE)/2 - 250, (Game.HEIGHT*Game.SCALE)/2-150);
-		/*Opçoes do menu*//*
-		g.setColor(Color.YELLOW);
-		g.setFont(new Font("arial", Font.BOLD, 30));*/
 		if(!pause) {
-			/*Fundo preto*/
+			/*Fundo preto com o sprite decorativo*/
 			g.setColor(Color.black);
 			g.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE);
 			g.drawImage(painel, 0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE, null);
@@ -86,7 +79,7 @@ public class Menu {
 			g2.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE);
 			g.setColor(Color.YELLOW);
 			g.setFont(new Font("arial", Font.BOLD, 30));
-			g.drawString("Continue", (Game.WIDTH*Game.SCALE)/2 - 90, (Game.HEIGHT*Game.SCALE)/2+50);
+			g.drawString("Continue", (Game.WIDTH*Game.SCALE)/2 - 83, (Game.HEIGHT*Game.SCALE)/2+50);
 			g.drawString("Carregar jogo", (Game.WIDTH*Game.SCALE)/2 - 115, (Game.HEIGHT*Game.SCALE)/2+100);
 			g.drawString("Creditos", (Game.WIDTH*Game.SCALE)/2 - 77, (Game.HEIGHT*Game.SCALE)/2+150);
 			g.drawString("Sair", (Game.WIDTH*Game.SCALE)/2 - 45, (Game.HEIGHT*Game.SCALE)/2+200);
