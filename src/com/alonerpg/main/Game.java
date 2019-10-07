@@ -86,7 +86,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	}
 	
 	public void initFrame() {
-		frame = new JFrame("Teste"); //Inicializa o objeto e pode deixar o nome na janela
+		frame = new JFrame("Jamalzin dos Shock"); //Inicializa o objeto e pode deixar o nome na janela
 		frame.add(this); //Tudo pertence ao Canvas, isso permite pegar todas as informaçoes de "frame"
 		frame.setResizable(false); // Para o usuario não consegui redimencionar a janela
 		frame.pack(); //Metodo do frames para quando colocar o canvas calcular certas dimensoes e mostrar
@@ -164,6 +164,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	
 	/*Cuida da renderizaçao*/
 	public void render() {
+		
 		BufferStrategy bs = this.getBufferStrategy(); // Uma sequencia de buffers que coloca na tela pra otimizar a renderizacao
 		if(bs == null) { //Vai servir para criar o buffer na primeira vez que renderizar, nas proximas vezes não entra mais nessa condicao 
 			this.createBufferStrategy(3);
@@ -175,17 +176,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		g.setColor(Color.darkGray); //Para definir a cor padrao da tela 
 		g.fillRect(0, 0, WIDTH, HEIGHT); //Renderizando um retangulo
 		
-		/*g.setColor(Color.blue); 
-		g.fillOval(0, 0, 100, 100);*/
-		
-		/*g.setFont(new Font("Arial", Font.BOLD, 16));
-		g.setColor(Color.WHITE);
-		g.drawString("Olá mundo", 60, 60);*/
-		
-		/*Graphics2D g2 = (Graphics2D) g; //Transforma o objeto no Graphics2D e permite que crie animaçoes e efeitos 
-		g2.setColor(new Color(0, 0, 0, 200));
-		g2.fillRect(0, 0, WIDTH, HEIGHT);
-		g2.rotate(Math.toRadians(0), 90+8, 90+8);*/
 		world.render(g);
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
