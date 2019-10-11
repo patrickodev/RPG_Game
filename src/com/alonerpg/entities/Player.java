@@ -17,7 +17,7 @@ public class Player extends Entity {
 	public int dir = right_dir;
 	public double speed = 0.9;
 	
-	private int frames = 0, maxFrames = 5, index = 0, maxIndex = 3;
+	private int frames = 0, maxFrames = 10, index = 0, maxIndex = 3;
 	private boolean moved = false;
 	public boolean isDamaged = false;
 	
