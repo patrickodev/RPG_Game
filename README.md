@@ -3,3 +3,7 @@ A game made from scratch in Java for Ludum Dare game jam, edition 45.
 
 ## How to run
 Just open the JamalzinDosRaio.jar file. **Make sure to have at least Java 12 installed.**
+
+## How to play
+WASD - Movement
+J or left mouse button - Shoot
